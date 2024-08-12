@@ -1,8 +1,8 @@
-# Detecting-Cybersecurity-Threats-using-Deep-Learning
+# **Detecting-Cybersecurity-Threats-using-Deep-Learning**
 
 This project demonstrates a binary classification model built using PyTorch. It covers end-to-end steps, including data preprocessing, model definition, training, evaluation, and performance analysis. The dataset used in this project contains labeled data for binary classification tasks.
 
-## Project Structure
+## **Project Structure**
 
 The directory containing the datasets:
 - labelled_train.csv: Training data with features and target labels.
@@ -11,7 +11,7 @@ The directory containing the datasets:
 - Detecting_Cybersecurity_Threats_using_Deep_Learning..ipynb: Main script to load data, define and train the model, and evaluate performance.
 - README.md: This file.
 
-## Requirements
+## **Requirements**
 
 To run this project, you will need Python and the following libraries:
 
@@ -28,9 +28,9 @@ You can install the required libraries using pip:
 pip install pandas scikit-learn torch torchmetrics matplotlib
 ```
 
-## Setup
+## **Setup**
 
-### 1. Mount Google Drive (if using Google Colab)
+### **1. Mount Google Drive (if using Google Colab)**
 If you are using Google Colab, mount your Google Drive to access the data files. Run the following code in a Colab notebook:
 
 ```
@@ -39,7 +39,7 @@ drive.mount('/content/drive')
 ```
 
 
-### 2. Place Data Files
+### **2. Place Data Files**
 
 Ensure that your CSV files are located in the correct directory. You should have the following files:
 
@@ -49,9 +49,9 @@ labelled_validation.csv
 
 If the files are not in this directory, update the paths in main.py accordingly.
 
-## Running the Project
+## **Running the Project**
 
-### 1. Load Data
+### **1. Load Data**
 
 The script begins by loading the dataset from CSV files into Pandas DataFrames:
 
@@ -72,7 +72,7 @@ X_val = val_df.drop('sus_label', axis=1).values
 y_val = val_df['sus_label'].values
 ```
 
-### 2. Data Preprocessing
+### **2. Data Preprocessing**
 
 The features are scaled using StandardScaler to standardize them:
 
@@ -94,7 +94,7 @@ X_val_tensor = torch.tensor(X_val, dtype=torch.float32)
 y_val_tensor = torch.tensor(y_val, dtype=torch.float32).view(-1, 1)
 ```
 
-### 3. Define the Model
+### **3. Define the Model**
 
 A simple feedforward neural network is defined using nn.Sequential:
 
@@ -111,7 +111,7 @@ model = nn.Sequential(
 )
 ```
 
-### 4. Training the Model
+### **4. Training the Model**
 
 The model is trained for 50 epochs using the Adam optimizer and binary cross-entropy loss:
 
@@ -140,7 +140,7 @@ for epoch in range(num_epoch):
       val_accuracies.append(val_accuracy)
 ```
 
-### 5. Model Evaluation
+### **5. Model Evaluation**
 
 After training, the model is evaluated on the training, validation, and test datasets:
 
@@ -196,12 +196,12 @@ plt.legend()
 plt.show()
 ```
 
-Results
+**Results**
 
 The output includes:
 
-  Training Accuracy: Accuracy on the training set.
-  Validation Accuracy: Accuracy on the validation set.
-  Testing Accuracy: Accuracy on the test set.
-  Confusion Matrix: Matrix showing the number of true positives, true negatives, false positives, and false negatives.
-  Precision, Recall, F1-Score: Metrics for assessing the model's performance on the test set.
+**Training Accuracy:** Accuracy on the training set.
+**Validation Accuracy:** Accuracy on the validation set.
+**Testing Accuracy:** Accuracy on the test set.
+**Confusion Matrix:** Matrix showing the number of true positives, true negatives, false positives, and false negatives.
+**Precision, Recall, F1-Score:** Metrics for assessing the model's performance on the test set.
