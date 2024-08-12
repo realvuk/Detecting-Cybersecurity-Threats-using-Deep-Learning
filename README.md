@@ -201,7 +201,11 @@ plt.show()
 The output includes:
 
 **Training Accuracy:** Accuracy on the training set.
+
 **Validation Accuracy:** Accuracy on the validation set.
+
 **Testing Accuracy:** Accuracy on the test set.
+
 **Confusion Matrix:** Matrix showing the number of true positives, true negatives, false positives, and false negatives.
+
 **Precision, Recall, F1-Score:** Metrics for assessing the model's performance on the test set.
