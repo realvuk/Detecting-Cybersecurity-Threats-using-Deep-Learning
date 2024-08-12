@@ -24,15 +24,19 @@ google.colab (if using Google Colab): For mounting Google Drive.
 
 You can install the required libraries using pip:
 
+```
 pip install pandas scikit-learn torch torchmetrics matplotlib
+```
 
 ## Setup
 
 ### 1. Mount Google Drive (if using Google Colab)
 If you are using Google Colab, mount your Google Drive to access the data files. Run the following code in a Colab notebook:
 
+```
 from google.colab import drive
 drive.mount('/content/drive')
+```
 
 
 ### 2. Place Data Files
@@ -51,41 +55,50 @@ If the files are not in this directory, update the paths in main.py accordingly.
 
 The script begins by loading the dataset from CSV files into Pandas DataFrames:
 
+```
 train_df = pd.read_csv('/content/drive/MyDrive/Colab Notebooks/Data/labelled_train.csv')
 test_df = pd.read_csv('/content/drive/MyDrive/Colab Notebooks/Data/labelled_test.csv')
 val_df = pd.read_csv('/content/drive/MyDrive/Colab Notebooks/Data/labelled_validation.csv')
+```
 
 It then separates features and labels:
 
+```
 X_train = train_df.drop('sus_label', axis=1).values
 y_train = train_df['sus_label'].values
 X_test = test_df.drop('sus_label', axis=1).values
 y_test = test_df['sus_label'].values
 X_val = val_df.drop('sus_label', axis=1).values
 y_val = val_df['sus_label'].values
+```
 
 ### 2. Data Preprocessing
 
 The features are scaled using StandardScaler to standardize them:
 
+```
 scaler = StandardScaler()
 X_train = scaler.fit_transform(X_train)
 X_test = scaler.transform(X_test)
 X_val = scaler.transform(X_val)
+```
 
 The data is then converted to PyTorch tensors:
 
+```
 X_train_tensor = torch.tensor(X_train, dtype=torch.float32)
 y_train_tensor = torch.tensor(y_train, dtype=torch.float32).view(-1, 1)
 X_test_tensor = torch.tensor(X_test, dtype=torch.float32)
 y_test_tensor = torch.tensor(y_test, dtype=torch.float32).view(-1, 1)
 X_val_tensor = torch.tensor(X_val, dtype=torch.float32)
 y_val_tensor = torch.tensor(y_val, dtype=torch.float32).view(-1, 1)
+```
 
 ### 3. Define the Model
 
 A simple feedforward neural network is defined using nn.Sequential:
 
+```
 model = nn.Sequential(
     nn.Linear(X_train.shape[1], 128),
     nn.ReLU(),
@@ -96,11 +109,13 @@ model = nn.Sequential(
     nn.Linear(64, 1),
     nn.Sigmoid()
 )
+```
 
 ### 4. Training the Model
 
 The model is trained for 50 epochs using the Adam optimizer and binary cross-entropy loss:
 
+```
 criterion = nn.BCELoss()
 optimizer = optim.Adam(model.parameters(), lr=1e-3, weight_decay=1e-4)
 
@@ -123,19 +138,23 @@ for epoch in range(num_epoch):
       accuracy = Accuracy(task="binary")
       val_accuracy = accuracy(y_predict_val, y_val_tensor).item()
       val_accuracies.append(val_accuracy)
+```
 
 ### 5. Model Evaluation
 
 After training, the model is evaluated on the training, validation, and test datasets:
 
+```
 model.eval()
 with torch.no_grad():
     y_predict_train = model(X_train_tensor).round()
     y_predict_test = model(X_test_tensor).round()
     y_predict_val = model(X_val_tensor).round()
+```
 
 Performance metrics including accuracy, precision, recall, and F1-score are calculated:
 
+```
 from sklearn.metrics import precision_score, recall_score, f1_score, confusion_matrix
 
 train_accuracy = accuracy(y_predict_train, y_train_tensor).item()
@@ -151,9 +170,11 @@ print(confusion_matrix(y_test, y_predict_test.numpy()))
 print("Precision (Test):", precision_score(y_test, y_predict_test.numpy()))
 print("Recall (Test):", recall_score(y_test, y_predict_test.numpy()))
 print("F1 Score (Test):", f1_score(y_test, y_predict_test.numpy()))
+```
 
 Loss and accuracy plots are generated to visualize the training process:
 
+```
 import matplotlib.pyplot as plt
 
 plt.figure(figsize=(12, 6))
@@ -173,6 +194,7 @@ plt.title('Validation Accuracy')
 plt.legend()
 
 plt.show()
+```
 
 Results
 
